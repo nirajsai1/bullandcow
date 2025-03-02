@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import './App.css'; 
-import m1 from './4594681.png';     
-import m2 from './9413665.png';     
-import up from './arrow-up-circle-green-64.webp';     
-import down from './11-64.webp';    
-import equal from './15658370.png'; 
+import { useNavigate } from "react-router-dom";
+import '../css/App.css'; 
+import m1 from '../assets/4594681.png';
+import m2 from '../assets/9413665.png';
+import up from '../assets/arrow-up-circle-green-64.webp';
+import down from '../assets/11-64.webp';
+import equal from '../assets/15658370.png';
 function App() {
   const [inp, setInp] = useState('');      
   const [cns, setCns] = useState([]);     
@@ -12,12 +13,14 @@ function App() {
   const [err, setErr] = useState('');      
   const [prev, setPrev] = useState([]);    
   const [w1, setW1] = useState(0);       
-  const [w2, setW2] = useState(0);         
+  const [w2, setW2] = useState(0); 
+  const navigate=useNavigate();        
   useEffect(() => {
     let arr = new Set();
     while (arr.size < 4) {
       arr.add(Math.floor(Math.random() * 10));
     }
+    console.log(arr);
     setTest([...arr]);
   }, []);
   const handleInput = (event) => {
@@ -64,7 +67,12 @@ function App() {
       symbol: symbol
     };
     if (bull === 4) {
+
       setErr('You Won');
+      const timer = setTimeout(() =>
+      {
+        navigate('/');
+      },3000);
     }
     setCns(prev => [...prev, result]); 
     setInp(''); 
