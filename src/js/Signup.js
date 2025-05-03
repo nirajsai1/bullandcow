@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../css/signup.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const Signup = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
-
+    const navigate=useNavigate();
     const handleSignup = async (e) => {
         e.preventDefault();
         setMessage("");
@@ -20,15 +22,13 @@ const Signup = () => {
             setMessage("Password must have uppercase, lowercase, number, and special character.");
             return;
         }
-
-        const response = await fetch("http://localhost:5000/signup", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password }),
-        });
-
-        const data = await response.json();
-        setMessage(data.message || data.error);
+        axios.post("http://localhost:5000/signup",{username,password})
+       .then(res => 
+        {
+            navigate('/');
+            setMessage(res.data);
+    })
+       .catch(err =>console.log(err));  
     };
 
     return (
